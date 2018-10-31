@@ -7,7 +7,6 @@ h1, hr, body{
 }
 .rest{
   height: 90vh;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -27,16 +26,6 @@ h1, hr, body{
   cursor: pointer;
   box-sizing: border-box;
 }
-
-
-#msg{
-  position: absolute;
-  top: 200px;
-  left: 70px;
-}
-.button_standart{
-  margin-top: 15px;
-}
 .topic{
   display: flex;
   justify-content: center;
@@ -46,4 +35,7 @@ h1, hr, body{
 }
 .game-body{
   box-shadow: 12px 12px 34px #333;
+}
+.col:hover{
+  background: white;
 }
