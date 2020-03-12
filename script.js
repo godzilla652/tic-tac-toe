@@ -41,6 +41,56 @@ function main(){
 
   let dom_cols = document.querySelectorAll('.col')
 
+
+  //1
+  function getCookie(name) {
+  let matches = document.cookie.match(new RegExp(
+    "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+  ));
+  return matches ? decodeURIComponent(matches[1]) : undefined;
+  }//getCookie
+
+  function setCookie(name, value, options = {}) {
+  options = {
+    path: '/',
+    // при необходимости добавьте другие значения по умолчанию
+    ...options
+  };
+
+  if (options.expires instanceof Date) {
+    options.expires = options.expires.toUTCString();
+  }
+
+  let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+
+  // for (let optionKey in options) {
+  //   updatedCookie += "; " + optionKey;
+  //   let optionValue = options[optionKey];
+  //   if (optionValue !== true) {
+  //     updatedCookie += "=" + optionValue;
+  //   }
+  // }
+  document.cookie = updatedCookie;
+  }//setCookie
+
+  function changeCookie(){
+    if(getCookie('boo') == '1'){
+      setCookie('boo','0')
+    }
+    else{
+      setCookie('boo','1')
+    }
+  }//change cookie
+
+  //if no cookie
+  if(getCookie('boo') === undefined){
+    setCookie('boo', '1')
+  }
+  if(getCookie('boo') == '0'){
+    computer_turn()
+  }
+
+  //
   for(let col of dom_cols){
     col.onclick = function(){
       if(this.children.length < 1){
@@ -111,6 +161,21 @@ function main(){
         }
       }
       let node_to_place = node_to_choose[randomInteger(0, node_to_choose.length-1)]
+
+      //костыль
+      if(node_to_place === undefined){
+        node_to_place = "1_1"
+      }
+
+      //@TODO
+      if(document.getElementById("1_1").children.length == 0){
+        return document.getElementById("1_1")
+      }
+      // if(document.getElementById(node_to_place).children.length == 0){
+      //   return document.getElementById(node_to_place)
+      // }
+
+
       if(document.getElementById(node_to_place).children.length == 0){
         return document.getElementById(node_to_place)
       }
@@ -151,11 +216,21 @@ function main(){
           if(element.children.length != 0){
             if(element.children[0].getAttribute('src').match(/./)[0] == 'x'){
               counter_x++
-              if(counter_x == 3){alert('Player wins');location.reload()}
+              if(counter_x == 3){
+                alert('Player wins')
+                //@TODO change cookie
+                changeCookie()
+                location.reload()
+              }
             }
             else{
               counter_y++
-              if(counter_y == 3){alert('Computer wins');location.reload()}
+              if(counter_y == 3){
+                alert('Computer wins')
+                //@TODO change cookie
+                changeCookie()
+                location.reload()
+              }
             }
           }
         }
